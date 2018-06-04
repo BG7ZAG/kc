@@ -14,7 +14,6 @@
           text-color="#fff"
           active-text-color="#ffd04b">
           <el-menu-item index="/admin/">首页</el-menu-item>
-
         </el-menu>
       </div>
       <i class="el-icon-more" @click="isPhoneR = !isPhoneR"></i>
@@ -64,6 +63,10 @@
             <el-menu-item index="/admin/about">
               <i class="el-icon-info"></i>
               <span slot="title">关于我们</span>
+            </el-menu-item>
+            <el-menu-item index="/admin/config">
+              <i class="el-icon-setting"></i>
+              <span slot="title">系统配置</span>
             </el-menu-item>
             <el-menu-item index="-1" route="#" @click="isCollapse = !isCollapse">
               <i v-if="!isCollapse" class="el-icon-caret-left"></i>

@@ -23,8 +23,8 @@
       <div class="server-main">
         <ol>
           <!--<li><span>NanAdmin官网:</span><a href="https://hcode.xyz/forum-6.htm" target="_blank">https://hcode.xyz</a></li>-->
-          <li><span>github:</span><a href="https://github.com/hlbj105/NanAdmin" target="_blank">https://github.com/hlbj105/NanAdmin</a></li>
-          <li><span>码云:</span><a href="https://gitee.com/hlbj105/NanAdmin" target="_blank">https://gitee.com/hlbj105/NanAdmin</a></li>
+          <li><span>github:</span><a href="https://github.com/hlbj105/kc" target="_blank">https://github.com/hlbj105/kc</a></li>
+          <li><span>码云:</span><a href="https://gitee.com/hlbj105/kang_cheng" target="_blank">https://gitee.com/hlbj105/kang_cheng</a></li>
           <li><span>开发者:</span><a href="https://xn--nf1a578axkh.xn--fiqs8s/" target="_blank">Jason</a></li>
         </ol>
       </div>

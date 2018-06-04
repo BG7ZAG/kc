@@ -3,7 +3,7 @@ import NuxtLoading from './components/nuxt-loading.vue'
 
 import '../assets/css/main.css'
 
-import '../node_modules/_element-ui@2.3.9@element-ui/lib/theme-chalk/index.css'
+import '../node_modules/_element-ui@2.4.0@element-ui/lib/theme-chalk/index.css'
 
 import '../node_modules/_quill@1.3.6@quill/dist/quill.snow.css'
 

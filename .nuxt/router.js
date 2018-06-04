@@ -3,12 +3,14 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const _7b45c906 = () => import('../pages/admin/index.vue' /* webpackChunkName: "pages/admin/index" */).then(m => m.default || m)
-const _7b08885d = () => import('../pages/admin/swiper.vue' /* webpackChunkName: "pages/admin/swiper" */).then(m => m.default || m)
-const _459ea801 = () => import('../pages/admin/goods.vue' /* webpackChunkName: "pages/admin/goods" */).then(m => m.default || m)
-const _59a0caa3 = () => import('../pages/admin/category.vue' /* webpackChunkName: "pages/admin/category" */).then(m => m.default || m)
-const _bab57e90 = () => import('../pages/admin/about.vue' /* webpackChunkName: "pages/admin/about" */).then(m => m.default || m)
-const _de5671ea = () => import('../pages/admin/contact.vue' /* webpackChunkName: "pages/admin/contact" */).then(m => m.default || m)
+const _2ba1afec = () => import('../pages/admin/index.vue' /* webpackChunkName: "pages/admin/index" */).then(m => m.default || m)
+const _3a5681ce = () => import('../pages/admin/swiper.vue' /* webpackChunkName: "pages/admin/swiper" */).then(m => m.default || m)
+const _8974088c = () => import('../pages/admin/contact.vue' /* webpackChunkName: "pages/admin/contact" */).then(m => m.default || m)
+const _7d562bd4 = () => import('../pages/admin/category.vue' /* webpackChunkName: "pages/admin/category" */).then(m => m.default || m)
+const _0be9d527 = () => import('../pages/admin/about.vue' /* webpackChunkName: "pages/admin/about" */).then(m => m.default || m)
+const _503be798 = () => import('../pages/admin/config.vue' /* webpackChunkName: "pages/admin/config" */).then(m => m.default || m)
+const _a2398720 = () => import('../pages/admin/goods.vue' /* webpackChunkName: "pages/admin/goods" */).then(m => m.default || m)
+const _156d59fa = () => import('../pages/admin/login.vue' /* webpackChunkName: "pages/admin/login" */).then(m => m.default || m)
 
 
 
@@ -70,33 +72,43 @@ export function createRouter () {
     routes: [
 		{
 			path: "/admin",
-			component: _7b45c906,
+			component: _2ba1afec,
 			name: "admin"
 		},
 		{
 			path: "/admin/swiper",
-			component: _7b08885d,
+			component: _3a5681ce,
 			name: "admin-swiper"
 		},
 		{
-			path: "/admin/goods",
-			component: _459ea801,
-			name: "admin-goods"
+			path: "/admin/contact",
+			component: _8974088c,
+			name: "admin-contact"
 		},
 		{
 			path: "/admin/category",
-			component: _59a0caa3,
+			component: _7d562bd4,
 			name: "admin-category"
 		},
 		{
 			path: "/admin/about",
-			component: _bab57e90,
+			component: _0be9d527,
 			name: "admin-about"
 		},
 		{
-			path: "/admin/contact",
-			component: _de5671ea,
-			name: "admin-contact"
+			path: "/admin/config",
+			component: _503be798,
+			name: "admin-config"
+		},
+		{
+			path: "/admin/goods",
+			component: _a2398720,
+			name: "admin-goods"
+		},
+		{
+			path: "/admin/login",
+			component: _156d59fa,
+			name: "admin-login"
 		}
     ],
     
