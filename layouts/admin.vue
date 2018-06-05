@@ -29,7 +29,7 @@
         active-text-color="#ffd04b">
         <el-menu-item index="1">admin</el-menu-item>
         <el-menu-item index="2">前台</el-menu-item>
-        <el-menu-item index="3">退出</el-menu-item>
+        <el-menu-item index="3" @click='logout'>退出</el-menu-item>
       </el-menu>
     </el-header>
     <el-container>
@@ -91,6 +91,7 @@
 </template>
 
 <script>
+  import axios from '../plugins/axios'
   export default {
 
     data () {
@@ -115,6 +116,20 @@
       })
     },
     methods: {
+      logout () {
+        axios.get('/api/logout')
+          .then(res => {
+            if (res.data.code === 200) {
+              this.$message({
+                message: '退出成功',
+                type: 'success'
+              })
+              setTimeout(() => {
+                this.$router.push('/admin/login')
+              }, 1500)
+            }
+          })
+      },
       handleOpen (key, keyPath) {
         console.log(key, keyPath)
       },

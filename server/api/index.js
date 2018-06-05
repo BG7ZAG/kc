@@ -9,6 +9,7 @@ import upload from '../model/upload'
 import about from './about'
 import config from './config'
 import code from './code'
+import login from './login'
 const router = Router()
 
 // Add USERS Routes
@@ -20,5 +21,6 @@ router.use(swiper) // 轮播
 router.use(about) // 关于我们
 router.use(config) // 配置
 router.use(code) // 获取验证码
+router.use(login) // 登录
 router.use('/upload', upload)
 export default router
