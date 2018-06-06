@@ -22,9 +22,19 @@
         <template slot-scope="scope">{{ scope.row.id }}</template>
       </el-table-column>
       <el-table-column
+        prop="time"
+        label="时间"
+        width="100">
+      </el-table-column>
+      <el-table-column
         prop="name"
-        label="留言名称	"
+        label="留言名称"
         width="150">
+      </el-table-column>
+      <el-table-column
+        prop="phone"
+        label="联系方式"
+        width='150'>
       </el-table-column>
       <el-table-column
         prop="content"
@@ -35,7 +45,7 @@
       <el-table-column
         fixed="right"
         label="操作"
-        width="200">
+        width="150">
         <template slot-scope="scope">
           <el-button size="small" @click="addCategory(scope.row.id)">回复</el-button>
           <el-button type="danger" size="small" @click="delCategory(scope.row.id)">删除</el-button>
@@ -95,7 +105,9 @@
             name: '王小虎',
             content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
             address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123'
+            goodsCount: '123',
+            phone: 123,
+            time: '2018-2-2'
           }, {
             id: '2016-05-02',
             name: '王小虎',

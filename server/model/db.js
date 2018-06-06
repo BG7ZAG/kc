@@ -123,12 +123,38 @@ let ConfigSchema = new mongoose.Schema({
     updatedAt: 'updateTime'
   }
 })
+
+// 留言
+let ContactSchema = new mongoose.Schema({
+  'name': String,
+  'phone': Number,
+  'email': String,
+  'content': String,
+  'reply': String,
+  'createTime': {
+    type: Date,
+    default: Date.now
+  },
+  'updateTime': {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: {
+    createdAt: 'createTime',
+    updatedAt: 'updateTime'
+  }
+})
+
+
+
 // model
 let n_categorie = mongoose.model('n_categorie', CategorieSchema)
 let n_goods = mongoose.model('n_goods', GoodsSchema)
 let n_swiper = mongoose.model('n_swiper', SwiperSchema)
 let n_about = mongoose.model('n_about', AboutSchema)
 let n_config = mongoose.model('n_config', ConfigSchema)
+let n_contact = mongoose.model('n_contact', ContactSchema)
 
 
 exports.n_categorie = n_categorie
@@ -136,3 +162,4 @@ exports.n_goods = n_goods
 exports.n_swiper = n_swiper
 exports.n_about = n_about
 exports.n_config = n_config
+exports.n_contact = n_contact

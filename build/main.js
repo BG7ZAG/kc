@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -200,18 +200,43 @@ var ConfigSchema = new mongoose.Schema({
     updatedAt: 'updateTime'
   }
 });
+
+// 留言
+var ContactSchema = new mongoose.Schema({
+  'name': String,
+  'phone': Number,
+  'email': String,
+  'content': String,
+  'reply': String,
+  'createTime': {
+    type: Date,
+    default: Date.now
+  },
+  'updateTime': {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  timestamps: {
+    createdAt: 'createTime',
+    updatedAt: 'updateTime'
+  }
+});
+
 // model
 var n_categorie = mongoose.model('n_categorie', CategorieSchema);
 var n_goods = mongoose.model('n_goods', GoodsSchema);
 var n_swiper = mongoose.model('n_swiper', SwiperSchema);
 var n_about = mongoose.model('n_about', AboutSchema);
 var n_config = mongoose.model('n_config', ConfigSchema);
+var n_contact = mongoose.model('n_contact', ContactSchema);
 
 exports.n_categorie = n_categorie;
 exports.n_goods = n_goods;
 exports.n_swiper = n_swiper;
 exports.n_about = n_about;
 exports.n_config = n_config;
+exports.n_contact = n_contact;
 
 /***/ }),
 /* 3 */
@@ -221,23 +246,38 @@ module.exports = require("mongoose");
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var crypto = __webpack_require__(20);
+
+module.exports = function (pwd) {
+    function m(e) {
+        return crypto.createHash('md5').update(e).digest('base64');
+    }
+
+    var password = m(m(pwd) + '@Jason' + m(pwd));
+    return password;
+};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_nuxt__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_path__);
 
 
 
 
 var app = __WEBPACK_IMPORTED_MODULE_0_express___default()();
-var session = __webpack_require__(25);
+var session = __webpack_require__(26);
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;
 app.set('port', port);
@@ -282,7 +322,7 @@ app.use('/admin', function (req, res, next) {
 app.use('/api', __WEBPACK_IMPORTED_MODULE_2__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
-var config = __webpack_require__(26);
+var config = __webpack_require__(27);
 config.dev = !("development" === 'production');
 
 // Init Nuxt.js
@@ -303,29 +343,31 @@ app.listen(port, host);
 console.log('Server listening on ' + host + ':' + port); // eslint-disable-line no-console
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = require("nuxt");
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__info__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__users__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__category__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__goods__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__swiper__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_upload__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__info__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__users__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__category__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__goods__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__swiper__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_upload__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__model_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__model_upload__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__about__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__config__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__about__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__config__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__code__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__contact__ = __webpack_require__(28);
+
 
 
 
@@ -350,11 +392,12 @@ router.use(__WEBPACK_IMPORTED_MODULE_7__about__["a" /* default */]); // 关于�
 router.use(__WEBPACK_IMPORTED_MODULE_8__config__["a" /* default */]); // 配置
 router.use(__WEBPACK_IMPORTED_MODULE_9__code__["a" /* default */]); // 获取验证码
 router.use(__WEBPACK_IMPORTED_MODULE_10__login__["a" /* default */]); // 登录
+router.use(__WEBPACK_IMPORTED_MODULE_11__contact__["a" /* default */]); // 留言
 router.use('/upload', __WEBPACK_IMPORTED_MODULE_6__model_upload___default.a);
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -362,8 +405,8 @@ router.use('/upload', __WEBPACK_IMPORTED_MODULE_6__model_upload___default.a);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-var os = __webpack_require__(8);
-var timeStamp = __webpack_require__(9);
+var os = __webpack_require__(9);
+var timeStamp = __webpack_require__(10);
 /* GET info. */
 router.get('/info', function (req, res, next) {
   var info = {
@@ -386,13 +429,13 @@ router.get('/info', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("os");
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 exports.ddhhmm = function (second_time) {
@@ -421,7 +464,7 @@ exports.ddhhmm = function (second_time) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -452,7 +495,7 @@ router.get('/users/:id', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -613,7 +656,7 @@ router.delete('/delCategory', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -621,7 +664,7 @@ router.delete('/delCategory', function (req, res, next) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
 
 var formidable = __webpack_require__(1);
-var moment = __webpack_require__(13);
+var moment = __webpack_require__(14);
 moment.locale('zh-cn');
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 var db = __webpack_require__(2);
@@ -830,13 +873,13 @@ router.get('/goods/detail', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("moment");
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -977,11 +1020,11 @@ router.delete('/swiper', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var formidable = __webpack_require__(1);
-var fs = __webpack_require__(16);
+var fs = __webpack_require__(17);
 
 module.exports = function (req, res, next) {
 
@@ -1020,13 +1063,13 @@ module.exports = function (req, res, next) {
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1107,7 +1150,7 @@ router.post('/about', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1116,7 +1159,7 @@ router.post('/about', function (req, res, next) {
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 var db = __webpack_require__(2);
-var md5 = __webpack_require__(19);
+var md5 = __webpack_require__(4);
 var formidable = __webpack_require__(1);
 
 router.get('/config', function (req, res, next) {
@@ -1196,21 +1239,6 @@ router.post('/config', function (req, res, next) {
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var crypto = __webpack_require__(20);
-
-module.exports = function (pwd) {
-    function m(e) {
-        return crypto.createHash('md5').update(e).digest('base64');
-    }
-
-    var password = m(m(pwd) + '@Jason' + m(pwd));
-    return password;
-};
-
-/***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
@@ -1282,18 +1310,85 @@ module.exports = require("svg-captcha");
 
 /***/ }),
 /* 24 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("path");
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
+var db = __webpack_require__(2);
+var md5 = __webpack_require__(4);
+var formidable = __webpack_require__(1);
+
+router.post('/login', function (req, res, next) {
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        if (err) {
+            res.json({ code: 500, data: err, msg: '服务器错误' });
+            return;
+        }
+        // console.log(fields)
+        if (!fields.code) {
+            res.json({ code: 400, data: '请输入验证码', msg: '请输入验证码' });
+            return;
+        }
+        if (!fields.name) {
+            res.json({ code: 400, data: '请输入账户', msg: '请输入账户' });
+            return;
+        }
+        if (!fields.password) {
+            res.json({ code: 400, data: '请输入密码', msg: '请输入密码' });
+            return;
+        }
+        if (fields.code.toLowerCase() != req.session.captcha) {
+            res.json({ code: 400, data: '请输入验证码错误', msg: '请输入验证码错误' });
+            return;
+        }
+        var data = {
+            name: fields.name,
+            password: fields.password
+        };
+        db.n_config.find({ '_id': '5b154983a0c11b3686ccb5af' }, function (err, result) {
+            if (err) {
+                res.json({ code: 500, data: err, msg: '服务器错误' });
+                return;
+            }
+            if (result[0].name != fields.name) {
+                res.json({ code: 400, data: err, msg: '账号错误' });
+                return;
+            }
+            if (result[0].password != md5(fields.password)) {
+                res.json({ code: 400, data: err, msg: '密码错误' });
+                return;
+            }
+            req.session.login = 1;
+            res.json({ code: 200, data: '登录成功', msg: '登录成功' });
+        });
+    });
+});
+
+// 注销登录
+router.get('/logout', function (req, res, next) {
+    req.session.login = -1;
+    res.json({ code: 200, data: '退出成功', msg: '退出成功' });
+});
+/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports) {
 
-module.exports = require("express-session");
+module.exports = require("path");
 
 /***/ }),
 /* 26 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-session");
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1353,7 +1448,7 @@ module.exports = {
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1362,61 +1457,41 @@ module.exports = {
 
 var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
 var db = __webpack_require__(2);
-var md5 = __webpack_require__(19);
 var formidable = __webpack_require__(1);
 
-router.post('/login', function (req, res, next) {
-    var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        if (err) {
-            res.json({ code: 500, data: err, msg: '服务器错误' });
-            return;
-        }
-        // console.log(fields)
-        if (!fields.code) {
-            res.json({ code: 400, data: '请输入验证码', msg: '请输入验证码' });
-            return;
-        }
-        if (!fields.name) {
-            res.json({ code: 400, data: '请输入账户', msg: '请输入账户' });
-            return;
-        }
-        if (!fields.password) {
-            res.json({ code: 400, data: '请输入密码', msg: '请输入密码' });
-            return;
-        }
-        if (fields.code.toLowerCase() != req.session.captcha) {
-            res.json({ code: 400, data: '请输入验证码错误', msg: '请输入验证码错误' });
-            return;
-        }
-        var data = {
-            name: fields.name,
-            password: fields.password
-        };
-        db.n_config.find({ '_id': '5b154983a0c11b3686ccb5af' }, function (err, result) {
-            if (err) {
-                res.json({ code: 500, data: err, msg: '服务器错误' });
-                return;
-            }
-            if (result[0].name != fields.name) {
-                res.json({ code: 400, data: err, msg: '账号错误' });
-                return;
-            }
-            if (result[0].password != md5(fields.password)) {
-                res.json({ code: 400, data: err, msg: '密码错误' });
-                return;
-            }
-            req.session.login = 1;
-            res.json({ code: 200, data: '登录成功', msg: '登录成功' });
-        });
+router.get('/contact', function (req, res, next) {
+  var limit = req.query.limit || 10;
+  var current_page = req.query.current_page || 1;
+  current_page -= 1;
+  var data = {};
+  // 获取分类数量
+  db.n_categorie.find().count().exec(function (err, count) {
+    if (err) {
+      res.json({ code: 500, data: err, msg: '服务器错误' });
+      return;
+    }
+    data.total = count;
+    data.limit = limit;
+
+    // 获取分类列表
+    db.n_categorie.find().sort({ '_id': -1 }).exec(function (err, result) {
+      if (err) {
+        res.json({ code: 500, data: err, msg: '服务器错误' });
+        return;
+      }
+      // console.log(result)
+      if (result.length === 0) {
+        res.json({ code: 400, data: '没有数据', msg: '没有数据' });
+        return;
+      }
+      data.current_page = current_page + 1;
+      data.result = result;
+
+      res.json({ code: 200, data: data, msg: '获取成功' });
     });
+  });
 });
 
-// 注销登录
-router.get('/logout', function (req, res, next) {
-    req.session.login = -1;
-    res.json({ code: 200, data: '退出成功', msg: '退出成功' });
-});
 /* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ })
