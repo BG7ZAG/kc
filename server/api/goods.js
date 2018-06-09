@@ -29,10 +29,7 @@ router.get('/goods', function (req, res, next) {
         res.json({code: 500, data: err, msg: '服务器错误'})
         return
       }
-      if (result.length === 0) {
-        res.json({code: 400, data: '没有数据', msg: '没有数据'})
-        return
-      }
+   
       let list = []
       let tempJson = {}
       result.forEach((v, i) => {

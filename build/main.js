@@ -205,9 +205,7 @@ var ConfigSchema = new mongoose.Schema({
 var ContactSchema = new mongoose.Schema({
   'name': String,
   'phone': Number,
-  'email': String,
   'content': String,
-  'reply': String,
   'createTime': {
     type: Date,
     default: Date.now
@@ -270,14 +268,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nuxt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_nuxt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__api__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_path___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_path__);
 
 
 
 
 var app = __WEBPACK_IMPORTED_MODULE_0_express___default()();
-var session = __webpack_require__(26);
+var session = __webpack_require__(27);
 var host = process.env.HOST || '127.0.0.1';
 var port = process.env.PORT || 3000;
 app.set('port', port);
@@ -322,7 +320,7 @@ app.use('/admin', function (req, res, next) {
 app.use('/api', __WEBPACK_IMPORTED_MODULE_2__api__["a" /* default */]);
 
 // Import and Set Nuxt.js options
-var config = __webpack_require__(27);
+var config = __webpack_require__(28);
 config.dev = !("development" === 'production');
 
 // Init Nuxt.js
@@ -366,7 +364,7 @@ module.exports = require("nuxt");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__config__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__code__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__contact__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__contact__ = __webpack_require__(25);
 
 
 
@@ -693,10 +691,7 @@ router.get('/goods', function (req, res, next) {
         res.json({ code: 500, data: err, msg: '服务器错误' });
         return;
       }
-      if (result.length === 0) {
-        res.json({ code: 400, data: '没有数据', msg: '没有数据' });
-        return;
-      }
+
       var list = [];
       var tempJson = {};
       result.forEach(function (v, i) {
@@ -1377,18 +1372,117 @@ router.get('/logout', function (req, res, next) {
 
 /***/ }),
 /* 25 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = require("path");
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
+
+var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
+var db = __webpack_require__(2);
+var moment = __webpack_require__(14);
+moment.locale('zh-cn');
+
+router.get('/contact', function (req, res, next) {
+  var limit = req.query.limit || 2;
+  var current_page = req.query.current_page || 1;
+  current_page -= 1;
+  var data = {};
+  // 获取分类数量
+  db.n_contact.find().count().exec(function (err, count) {
+    if (err) {
+      res.json({ code: 500, data: err, msg: '服务器错误' });
+      return;
+    }
+    data.total = count;
+    data.limit = limit;
+
+    // 获取列表
+    db.n_contact.find().sort({ '_id': -1 }).skip(current_page * limit).limit(limit).exec(function (err, result) {
+      if (err) {
+        res.json({ code: 500, data: err, msg: '服务器错误' });
+        return;
+      }
+      // if (result.length === 0) {
+      //   res.json({code: 400, data: '没有数据', msg: '没有数据'})
+      //   return
+      // }
+      var list = [];
+      var tempJson = {};
+      result.forEach(function (v, i) {
+        tempJson = {};
+        tempJson['createTime'] = moment(result[i].createTime).format('YYYY-MM-DD HH:mm:ss');
+        tempJson['_id'] = result[i]._id;
+        tempJson['name'] = result[i].name;
+        tempJson['phone'] = result[i].phone;
+        tempJson['content'] = result[i].content;
+        tempJson['updateTime'] = result[i].updateTime;
+        tempJson['__v'] = result[i].__v;
+        list[i] = tempJson;
+      });
+      data.current_page = current_page + 1;
+      data.data = list;
+      res.json({ code: 200, data: data, msg: '获取留言列表成功' });
+    });
+  });
+});
+
+// 删除留言
+router.delete('/contact', function (req, res, next) {
+  if (!req.query.id) {
+    res.json({ code: 400, data: '参数缺少: id', msg: '参数缺少: id' });
+    return;
+  }
+  var ids = req.query.id;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = ids[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var i = _step.value;
+
+      db.n_contact.remove({ '_id': i }, function (err, result) {
+        if (err) {
+          res.json({ code: 500, data: err, msg: '服务器错误' });
+          return;
+        }
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  res.json({ code: 200, data: '删除成功', msg: '删除成功' });
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports) {
 
-module.exports = require("express-session");
+module.exports = require("path");
 
 /***/ }),
 /* 27 */
+/***/ (function(module, exports) {
+
+module.exports = require("express-session");
+
+/***/ }),
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -1446,53 +1540,6 @@ module.exports = {
   plugins: [{ src: '~plugins/element-ui', ssr: true }, { src: '~plugins/nuxt-quill-plugin.js', ssr: false }]
 
 };
-
-/***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_express___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_express__);
-
-var router = Object(__WEBPACK_IMPORTED_MODULE_0_express__["Router"])();
-var db = __webpack_require__(2);
-var formidable = __webpack_require__(1);
-
-router.get('/contact', function (req, res, next) {
-  var limit = req.query.limit || 10;
-  var current_page = req.query.current_page || 1;
-  current_page -= 1;
-  var data = {};
-  // 获取分类数量
-  db.n_categorie.find().count().exec(function (err, count) {
-    if (err) {
-      res.json({ code: 500, data: err, msg: '服务器错误' });
-      return;
-    }
-    data.total = count;
-    data.limit = limit;
-
-    // 获取分类列表
-    db.n_categorie.find().sort({ '_id': -1 }).exec(function (err, result) {
-      if (err) {
-        res.json({ code: 500, data: err, msg: '服务器错误' });
-        return;
-      }
-      // console.log(result)
-      if (result.length === 0) {
-        res.json({ code: 400, data: '没有数据', msg: '没有数据' });
-        return;
-      }
-      data.current_page = current_page + 1;
-      data.result = result;
-
-      res.json({ code: 200, data: data, msg: '获取成功' });
-    });
-  });
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ })
 /******/ ]);

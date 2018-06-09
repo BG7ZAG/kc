@@ -17,7 +17,7 @@
         <div v-html='code' @click='getCode'></div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit(ruleForm)">登录</el-button>
+        <el-button style="width: 100%;" type="primary" round @click="onSubmit(ruleForm)">登录</el-button>
       </el-form-item>
     </el-form>
   </main>

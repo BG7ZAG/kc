@@ -2,15 +2,15 @@
   <main class="box">
     <h2>系统配置</h2>
     <el-form :model="form">
-     
+
       <el-form-item label="管理员账号:" :label-width="formLabelWidth">
         <el-input v-model="form.name" placeholder="请输入管理员账号"></el-input>
       </el-form-item>
       <el-form-item label="修改密码:" :label-width="formLabelWidth">
-        <el-input v-model="form.password" type='password' placeholder="请输入新密码"></el-input>
+        <el-input v-model="form.password" type='password' placeholder="请输入新密码(不修改则不填)"></el-input>
       </el-form-item>
       <el-form-item label="确认密码:" :label-width="formLabelWidth">
-        <el-input v-model="form.rpassword" type='password' placeholder="请确认密码"></el-input>
+        <el-input v-model="form.rpassword" type='password' placeholder="请确认密码(不修改则不填)"></el-input>
       </el-form-item>
       <el-form-item label="管理员邮箱:" :label-width="formLabelWidth">
         <el-input v-model="form.email" placeholder="请输入管理员邮箱"></el-input>
@@ -137,22 +137,23 @@
             return
           }
         }
-        if (!form.appid) {
-          this.$message.error('appid必填')
-          return
-        }
-        if (!form.appsecret) {
-          this.$message.error('appsecret必填')
+        // if (!form.appid) {
+        //   this.$message.error('appid必填')
+        //   return
+        // }
+        // if (!form.appsecret) {
+        //   this.$message.error('appsecret必填')
+        //   return
+        // }
+        if (!form.old_password) {
+          this.$message.error('请输入管理员密码')
           return
         }
         if (!form.code) {
           this.$message.error('请输入验证码')
           return
         }
-        if (!form.old_password) {
-          this.$message.error('请输入管理员密码')
-          return
-        }
+
         if (form.password && form.rpassword && form.password === form.rpassword) {
           data.password = form.password
         }

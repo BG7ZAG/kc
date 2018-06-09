@@ -56,7 +56,7 @@
     <el-pagination
       background
       layout="prev, pager, next"
-      :limit="goods.limit"
+      :page-size="goods.limit"
       @current-change="handleCurrentChange"
       :total="goods.total">
     </el-pagination>

@@ -128,9 +128,7 @@ let ConfigSchema = new mongoose.Schema({
 let ContactSchema = new mongoose.Schema({
   'name': String,
   'phone': Number,
-  'email': String,
   'content': String,
-  'reply': String,
   'createTime': {
     type: Date,
     default: Date.now

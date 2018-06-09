@@ -8,7 +8,7 @@
       stripe
       border
       ref="multipleTable"
-      :data="tableData3"
+      :data="contact.data"
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange">
@@ -18,23 +18,23 @@
       </el-table-column>
       <el-table-column
         label="id"
-        width="200">
-        <template slot-scope="scope">{{ scope.row.id }}</template>
+        width="220">
+        <template slot-scope="scope">{{ scope.row._id }}</template>
       </el-table-column>
       <el-table-column
-        prop="time"
+        prop="createTime"
         label="时间"
         width="100">
       </el-table-column>
       <el-table-column
         prop="name"
         label="留言名称"
-        width="150">
+        width="100">
       </el-table-column>
       <el-table-column
         prop="phone"
         label="联系方式"
-        width='150'>
+        width='130'>
       </el-table-column>
       <el-table-column
         prop="content"
@@ -45,10 +45,10 @@
       <el-table-column
         fixed="right"
         label="操作"
-        width="150">
+        width="80">
         <template slot-scope="scope">
-          <el-button size="small" @click="addCategory(scope.row.id)">回复</el-button>
-          <el-button type="danger" size="small" @click="delCategory(scope.row.id)">删除</el-button>
+          <!--<el-button size="small" @click="addCategory(scope.row.id)">回复</el-button>-->
+          <el-button type="danger" size="small" @click="delCategory(scope.row._id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -56,84 +56,53 @@
     <el-pagination
       background
       layout="prev, pager, next"
+      :page-size="contact.limit"
       @current-change="handleCurrentChange"
-      :total="50">
+      :total="contact.total"
+    >
     </el-pagination>
 
-    <el-dialog
-      :close-on-click-modal= false
-      class="addCategory-box" title="回复留言" :visible.sync="addCategoryBox">
-      <el-form :model="form">
-        <el-form-item label="留言内容：" :label-width="formLabelWidth">
-          留言内容
-        </el-form-item>
-        <el-form-item label="回复：" :label-width="formLabelWidth">
-          <div class="quill-wrap">
-            <quill-editor
-              v-model="content"
-              ref="myQuillEditor"
-              :options="editorOption"
-            >
-            </quill-editor>
-          </div>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addCategoryBox = false">取 消</el-button>
-        <el-button type="primary" @click="addSubmit">确 定</el-button>
-      </div>
-    </el-dialog>
+    <!--<el-dialog-->
+      <!--:close-on-click-modal= false-->
+      <!--class="addCategory-box" title="回复留言" :visible.sync="addCategoryBox">-->
+      <!--<el-form :model="form">-->
+        <!--<el-form-item label="留言内容：" :label-width="formLabelWidth">-->
+          <!--留言内容-->
+        <!--</el-form-item>-->
+        <!--<el-form-item label="回复：" :label-width="formLabelWidth">-->
+          <!--<div class="quill-wrap">-->
+            <!--<quill-editor-->
+              <!--v-model="content"-->
+              <!--ref="myQuillEditor"-->
+              <!--:options="editorOption"-->
+            <!--&gt;-->
+            <!--</quill-editor>-->
+          <!--</div>-->
+        <!--</el-form-item>-->
+      <!--</el-form>-->
+      <!--<div slot="footer" class="dialog-footer">-->
+        <!--<el-button @click="addCategoryBox = false">取 消</el-button>-->
+        <!--<el-button type="primary" @click="addSubmit">确 定</el-button>-->
+      <!--</div>-->
+    <!--</el-dialog>-->
 
   </main>
 </template>
 
 <script>
-  import {quillEditor, Quill} from 'vue-quill-editor'
-  import {ImageExtend, QuillWatch} from 'quill-image-extend-module'
+  // import {quillEditor, Quill} from 'vue-quill-editor'
+  // import {ImageExtend, QuillWatch} from 'quill-image-extend-module'
+  import axios from '~/plugins/axios'
 
-  Quill.register('modules/ImageExtend', ImageExtend)
+  // Quill.register('modules/ImageExtend', ImageExtend)
   export default {
     layout: 'admin',
     scrollToTop: true,
-    components: {quillEditor},
+    // components: {quillEditor},
     name: 'contact',
     data () {
       return {
-        tableData3: [
-          {
-            id: '2016-05-03',
-            name: '王小虎',
-            content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
-            address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123',
-            phone: 123,
-            time: '2018-2-2'
-          }, {
-            id: '2016-05-02',
-            name: '王小虎',
-            content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
-            address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123'
-          }, {
-            id: '2016-05-04',
-            name: '王小虎',
-            content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
-            address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123'
-          }, {
-            id: '2016-05-01',
-            name: '王小虎',
-            content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
-            address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123'
-          }, {
-            id: '2016-05-08',
-            name: '王小虎',
-            content: 'https://user-images.githubusercontent.com/1016365/34124854-48fafa06-e3e9-11e7-8c04-251055feebee.png',
-            address: '上海市普陀区金沙江路 1518 弄',
-            goodsCount: '123'
-          }
-        ],
+        contact: {},
         multipleSelection: [],
         addCategoryBox: false, // 添加留言弹窗
         form: {
@@ -146,43 +115,43 @@
           resource: '',
           desc: ''
         },
-        formLabelWidth: '100px',
-        content: '',
-        // 富文本框参数设置
-        editorOption: {
-          modules: {
-            ImageExtend: {
-              loading: true, // 可选参数 是否显示上传进度和提示语
-              name: 'img', // 图片参数名
-              size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
-              action: '', // 服务器地址, 如果action为空，则采用base64插入图片
-              // response 为一个函数用来获取服务器返回的具体图片地址
-              // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
-              // 则 return res.data.url
-              response: (res) => {
-                return res
-              },
-              headers: (xhr) => {}, // 可选参数 设置请求头部
-              start: () => {}, // 可选参数 自定义开始上传触发事件
-              end: () => {}, // 可选参数 自定义上传结束触发的事件，无论成功或者失败
-              error: () => {}, // 可选参数 自定义网络错误触发的事件
-              change: (xhr, formData) => {} // 可选参数 选择图片触发，也可用来设置头部，但比headers多了一个参数，可设置formData
-            },
-            toolbar: {
-              container: [
-                [{ 'size': ['small', false, 'large'] }],
-                ['bold', 'italic'],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                ['link', 'image']
-              ], // container为工具栏，此次引入了全部工具栏，也可自行配置
-              handlers: {
-                'image': function () { // 劫持原来的图片点击按钮事件
-                  QuillWatch.emit(this.quill.id)
-                }
-              }
-            }
-          }
-        }
+        formLabelWidth: '100px'
+        // content: '',
+        // // 富文本框参数设置
+        // editorOption: {
+        //   modules: {
+        //     ImageExtend: {
+        //       loading: true, // 可选参数 是否显示上传进度和提示语
+        //       name: 'img', // 图片参数名
+        //       size: 3, // 可选参数 图片大小，单位为M，1M = 1024kb
+        //       action: '', // 服务器地址, 如果action为空，则采用base64插入图片
+        //       // response 为一个函数用来获取服务器返回的具体图片地址
+        //       // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
+        //       // 则 return res.data.url
+        //       response: (res) => {
+        //         return res
+        //       },
+        //       headers: (xhr) => {}, // 可选参数 设置请求头部
+        //       start: () => {}, // 可选参数 自定义开始上传触发事件
+        //       end: () => {}, // 可选参数 自定义上传结束触发的事件，无论成功或者失败
+        //       error: () => {}, // 可选参数 自定义网络错误触发的事件
+        //       change: (xhr, formData) => {} // 可选参数 选择图片触发，也可用来设置头部，但比headers多了一个参数，可设置formData
+        //     },
+        //     toolbar: {
+        //       container: [
+        //         [{ 'size': ['small', false, 'large'] }],
+        //         ['bold', 'italic'],
+        //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        //         ['link', 'image']
+        //       ], // container为工具栏，此次引入了全部工具栏，也可自行配置
+        //       handlers: {
+        //         'image': function () { // 劫持原来的图片点击按钮事件
+        //           QuillWatch.emit(this.quill.id)
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
       }
     },
     head () {
@@ -190,22 +159,46 @@
         title: '留言列表'
       }
     },
+    created () {
+      axios.get('/api/contact').then(res => {
+        // console.log(res.data)
+        if (res.data.code === 200) {
+          this.contact = res.data.data
+          console.log(res.data.data)
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    },
     methods: {
       // 切换页面
       handleCurrentChange (e) {
         // e 为当前页码
-        console.log(e)
+        // console.log(e)
+        axios.get('/api/contact', {
+          params: {
+            current_page: e
+          }
+        }).then(res => {
+          // console.log(res)
+          if (res.data.code === 200) {
+            this.contact = res.data.data
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
       },
       // 添加留言
-      addCategory (e) {
-        this.addCategoryBox = !this.addCategoryBox
-      },
-      // 确定提交添加留言
-      addSubmit () {
-        this.addCategoryBox = !this.addCategoryBox
-      },
+      // addCategory (e) {
+      //   this.addCategoryBox = !this.addCategoryBox
+      // },
+      // // 确定提交添加留言
+      // addSubmit () {
+      //   this.addCategoryBox = !this.addCategoryBox
+      // },
       // 删除留言
       delCategory (id) {
+        let ids = []
         if (!id) {
           if (this.multipleSelection.length === 0) {
             this.$message({
@@ -214,17 +207,44 @@
             })
             return
           }
+          for (let i of this.multipleSelection) {
+            ids.push(i._id)
+          }
         } else {
-          console.log('删除留言' + id)
+          // console.log('删除分类' + id)
+          ids.push(id)
         }
+
         this.$confirm('此操作将永久删除该留言, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          axios.delete('/api/contact', {
+            params: {
+              id: ids
+            }
+          }).then(res => {
+            // console.log(res)
+            if (res.data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              axios.get('/api/contact').then(res => {
+                // console.log(res)
+                if (res.data.code === 200) {
+                  this.contact = res.data.data
+                } else {
+                  this.$message.error(res.data.msg)
+                }
+              })
+            } else {
+              this.$message({
+                message: res.data.msg,
+                type: 'warning'
+              })
+            }
           })
         }).catch(() => {
           this.$message({
