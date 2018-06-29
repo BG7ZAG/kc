@@ -1,13 +1,12 @@
-import express from 'express'
-import { Nuxt, Builder } from 'nuxt'
-import api from './api'
-import path from 'path'
+const express = require('express')
+const api = require('./controller')
+const path = require('path')
+const history =  require('connect-history-api-fallback')
 const app = express()
 const session = require("express-session")
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
 app.set('port', port)
-
 // 连接数据库
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/nanadmin');
@@ -18,7 +17,19 @@ db.once('open', function (callback) {
 
 // 设置静态文件目录
 app.use('/uploads',express.static('uploads')); // 上传文件目录
+//allow custom header and CORS
+app.all('*',function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 
+  if (req.method == 'OPTIONS') {
+    res.send(200); /让options请求快速返回/
+  }
+  else {
+    next();
+  }
+});
 // session 中间件
 app.use(session({
     name: 'config.session.key', // 设置 cookie 中保存 session id 的字段名称
@@ -33,36 +44,25 @@ app.use(session({
     // })
 }))
 // 验证是否登录
-app.use('/admin', function (req, res, next) {
-	if (req.path == '/login') {
-        next();
-        return;
-    }
-    if(req.session.login != 1){
-        res.redirect('/admin/login')
-        return;
-    }
-    next();
-})
-// Import API Routes
+// app.use('/admin', function (req, res, next) {
+// 	if (req.path == '/login') {
+//         next();
+//         return;
+//     }
+//     if(req.session.login != 1){
+//         res.redirect('/admin/login')
+//         return;
+//     }
+//     next();
+// })
 app.use('/api', api)
 
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js')
-config.dev = !(process.env.NODE_ENV === 'production')
+// app.use(history({
+//     index: '/admin/index.html'
+// }));
 
-// Init Nuxt.js
-const nuxt = new Nuxt(config)
+app.use(express.static('view')); // 后台文件目录
 
-// Build only in dev mode
-if (config.dev) {
-  const builder = new Builder(nuxt)
-  builder.build()
-}
-
-// Give nuxt middleware to express
-
-app.use(nuxt.render)
 
 // Listen the server
 app.listen(port, host)
