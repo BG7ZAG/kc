@@ -30,7 +30,7 @@ module.exports = function (req, res, next) {
     // 移动，重命名文件
     let rename = fs.renameSync(oldPath, newPath)
     if (!rename) {
-      res.json({code: 200, msg: '文件上传成功', data: {'img': newPath, url: req.headers.origin + '/' + newPath}})
+      res.json({code: 200, msg: '文件上传成功', data: {'img': newPath, url: '/' + newPath}})
     } else {
       res.json({code: 400, msg: '文件上传失败', data: '文件上传失败'})
     }

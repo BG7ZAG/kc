@@ -312,7 +312,7 @@ export default {
         // 添加
         this.$api.post(this.$root.urlPath.MJK + '/goods', {
           name,
-          img,
+          img: JSON.stringify(img),
           content,
           categoryId: category
         }, res => {
@@ -340,7 +340,7 @@ export default {
         this.$api.put(this.$root.urlPath.MJK + '/goods', {
           id,
           name,
-          img,
+          img: JSON.stringify(img),
           content,
           categoryId: category
         }, res => {
@@ -427,17 +427,18 @@ export default {
     },
     // 上传成功
     handleSuccess (response, file, fileList) {
-      console.log(response, file, fileList)
+      // console.log(response, file, fileList)
       if (response.code === 200) {
-        console.log(this.fileList)
-        let list = {
-          name: response.data.url,
-          url: response.data.url
-        }
-        // this.fileList.push(list)
-        this.form.img.push(list)
-        console.log('---------')
-        console.log(this.fileList)
+        // console.log(this.fileList)
+        let list = {}
+        list.name = response.data.url
+        list.url = response.data.url
+        this.fileList.push(list)
+        this.form.img.push(response.data.img)
+        // console.warn(list)
+        // console.log('---------')
+        // console.log('form', this.form.img)
+        // console.log('fileList', this.fileList)
       } else {
         this.$message.error(response.msg)
       }

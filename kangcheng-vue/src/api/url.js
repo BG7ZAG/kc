@@ -5,7 +5,7 @@ export default {
       dev: {
         MJK: '/api',
         WEB_URL: {
-          WEB_MIAO: 'https://kc.hcode.xyz'
+          WEB_MIAO: 'http://127.0.0.1:3000'
         }
       },
       prod: {

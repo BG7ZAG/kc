@@ -61,7 +61,8 @@ router.post('/goods', function (req, res, next) {
       res.json({code: 500, data: err, msg: '服务器错误'})
       return
     }
-    // console.log(fields)
+    console.log(fields)
+    console.log(files)
     if (!fields.name) {
       res.json({code: 400, data: '缺少参数:name', msg: '缺少参数:name'})
       return
@@ -79,9 +80,10 @@ router.post('/goods', function (req, res, next) {
       return
     }
     let name = fields.name
-    let img = fields.img
+    let img = JSON.parse(fields.img)
     let content = fields.content
     let categoryId = fields.categoryId
+    console.log(img)
     // 验证名字是否一样
     db.n_goods.find({'name': name}).count().exec((err, count)=>{
       if (err) {
