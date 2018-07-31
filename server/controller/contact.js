@@ -7,7 +7,7 @@ const formidable = require('formidable')
 
 
 router.get('/contact', function(req, res, next) {
- let limit = req.query.limit || 2
+ let limit = req.query.limit || 10
   let current_page = req.query.current_page || 1
   current_page -= 1
   let data = {}

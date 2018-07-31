@@ -177,12 +177,14 @@ router.get('/goods/detail', function (req, res, next) {
     res.json({code: 400, data: '缺少参数:id', msg: '缺少参数:id'})
     return
   }
+  
   db.n_goods.find({'_id': id}, function (err, result) {
     if (err) {
       res.json({code: 500, data: err, msg: '服务器错误'})
       return
     }
     res.json({code: 200, data: result, msg: '商品详情获取成功'})
+    db.n_goods.update({ '_id': id }, {$set: {hot:result[0].hot+1}}, function (err1, result1) {})
   })
 })
 module.exports = router
