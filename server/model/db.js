@@ -49,7 +49,7 @@ let GoodsSchema = new mongoose.Schema({
     default: Date.now
   }
 }, {timestamps: { createdAt: 'createTime', updatedAt: 'updateTime' }})
-GoodsSchema.index({'name': 1, 'categoryId': 1})
+GoodsSchema.index({'name': 1, 'categoryId': 1, 'hot': 1})
 
 // 轮播
 let SwiperSchema = new mongoose.Schema({
