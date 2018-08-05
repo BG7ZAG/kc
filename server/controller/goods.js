@@ -56,7 +56,7 @@ router.get('/goods', function (req, res, next) {
 // 小程序端商品筛选
 router.get('/wxgoods', function (req, res, next) {
   let limit = req.query.limit*1 || 10
-  let current_page = req.query.current_page || 1
+  let current_page = req.query.current_page*1 || 1
   let hot = req.query.hot || 0
   let _id = req.query.time || 0
   let categoryId = {}
