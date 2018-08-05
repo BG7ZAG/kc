@@ -186,7 +186,7 @@ router.put('/goods', function (req, res, next) {
       return
     }
     let name = fields.name
-    let img = fields.img
+    let img = JSON.parse(fields.img)
     let content = fields.content
     let categoryId = fields.categoryId
     let id = fields.id
